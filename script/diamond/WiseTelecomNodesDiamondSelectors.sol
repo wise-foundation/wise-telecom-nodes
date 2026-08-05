@@ -15,6 +15,8 @@ import {MulticallFacet} from "../../src/diamond/vault/facets/MulticallFacet.sol"
 import {QueueAdminFacet} from "../../src/diamond/vault/facets/QueueAdminFacet.sol";
 import {QueueJoinLeaveFacet} from "../../src/diamond/vault/facets/QueueJoinLeaveFacet.sol";
 import {QueueFulfillFacet} from "../../src/diamond/vault/facets/QueueFulfillFacet.sol";
+import {QueueForecastFacet} from "../../src/diamond/vault/facets/QueueForecastFacet.sol";
+import {InterestAdminFacet} from "../../src/diamond/vault/facets/InterestAdminFacet.sol";
 import {WiseTelecomNodesQueueUIHelper} from "../../src/diamond/vault/helpers/WiseTelecomNodesQueueUIHelper.sol";
 import {WiseTelecomNodesQueueHelper} from "../../src/diamond/vault/helpers/WiseTelecomNodesQueueHelper.sol";
 
@@ -26,7 +28,9 @@ import {WiseTelecomNodesQueueHelper} from "../../src/diamond/vault/helpers/WiseT
  * Counts: admin=27, proxy=3, user=8, sweep=2, cashedInterest=1,
  * burnWise=3, move=7, bridge=14, permit2=3, multicall=1,
  * queueAdmin=2, queueJoinLeave=5, queueFulfill=4, queueView=10 —
- * total 90.
+ * total 90. Post-launch additions (registered via the timelocked
+ * selector proposals, not part of the genesis 90): queueForecast=1,
+ * interestAdmin=1.
  */
 library WiseTelecomNodesDiamondSelectors {
 
@@ -109,6 +113,24 @@ library WiseTelecomNodesDiamondSelectors {
     {
         sels = new bytes4[](1);
         sels[0] = CashedInterestFacet.getTotalCashedInterest.selector;
+    }
+
+    function queueForecastSelectors()
+        internal
+        pure
+        returns (bytes4[] memory sels)
+    {
+        sels = new bytes4[](1);
+        sels[0] = QueueForecastFacet.solveForAmountAfterFulfill.selector;
+    }
+
+    function interestAdminSelectors()
+        internal
+        pure
+        returns (bytes4[] memory sels)
+    {
+        sels = new bytes4[](1);
+        sels[0] = InterestAdminFacet.setCashedInterest.selector;
     }
 
     function burnWiseSelectors()
