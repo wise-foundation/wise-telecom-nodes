@@ -147,4 +147,6 @@ abstract contract WiseTelecomNodesDiamondErrors {
     error NegativeIncentiveNotAllowed();
 
     error SameIncentive();
+
+    error ProtectedToken();
 }
