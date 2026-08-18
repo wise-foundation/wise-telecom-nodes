@@ -17,6 +17,7 @@ import {QueueJoinLeaveFacet} from "../../src/diamond/vault/facets/QueueJoinLeave
 import {QueueFulfillFacet} from "../../src/diamond/vault/facets/QueueFulfillFacet.sol";
 import {QueueForecastFacet} from "../../src/diamond/vault/facets/QueueForecastFacet.sol";
 import {InterestAdminFacet} from "../../src/diamond/vault/facets/InterestAdminFacet.sol";
+import {RescueFacet} from "../../src/diamond/vault/facets/RescueFacet.sol";
 import {WiseTelecomNodesQueueUIHelper} from "../../src/diamond/vault/helpers/WiseTelecomNodesQueueUIHelper.sol";
 import {WiseTelecomNodesQueueHelper} from "../../src/diamond/vault/helpers/WiseTelecomNodesQueueHelper.sol";
 
@@ -30,7 +31,7 @@ import {WiseTelecomNodesQueueHelper} from "../../src/diamond/vault/helpers/WiseT
  * queueAdmin=2, queueJoinLeave=5, queueFulfill=4, queueView=10 —
  * total 90. Post-launch additions (registered via the timelocked
  * selector proposals, not part of the genesis 90): queueForecast=1,
- * interestAdmin=1.
+ * interestAdmin=1, rescue=1.
  */
 library WiseTelecomNodesDiamondSelectors {
 
@@ -131,6 +132,15 @@ library WiseTelecomNodesDiamondSelectors {
     {
         sels = new bytes4[](1);
         sels[0] = InterestAdminFacet.setCashedInterest.selector;
+    }
+
+    function rescueSelectors()
+        internal
+        pure
+        returns (bytes4[] memory sels)
+    {
+        sels = new bytes4[](1);
+        sels[0] = RescueFacet.rescueToken.selector;
     }
 
     function burnWiseSelectors()

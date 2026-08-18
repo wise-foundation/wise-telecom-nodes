@@ -200,6 +200,12 @@ abstract contract WiseTelecomNodesDiamondEvents {
         uint256 newAmount
     );
 
+    event TokenRescued(
+        address indexed token,
+        address indexed to,
+        uint256 amount
+    );
+
     event SweeperSet(
         address indexed sweeper,
         bool allowed
