@@ -37,6 +37,7 @@ import {SweeperDeclaration} from "./SweeperDeclaration.sol";
 import {DepositAccumPrevDeclaration} from "./DepositAccumPrevDeclaration.sol";
 import {HookGuardDeclaration} from "./HookGuardDeclaration.sol";
 import {InterestRemainderDeclaration} from "./InterestRemainderDeclaration.sol";
+import {AutoCompoundDeclaration} from "./AutoCompoundDeclaration.sol";
 
 /**
  * @title WiseTelecomNodesDeclarations
@@ -76,7 +77,8 @@ abstract contract WiseTelecomNodesDeclarations is
     SweeperDeclaration,
     DepositAccumPrevDeclaration,
     HookGuardDeclaration,
-    InterestRemainderDeclaration
+    InterestRemainderDeclaration,
+    AutoCompoundDeclaration
 {
 
     constructor(
