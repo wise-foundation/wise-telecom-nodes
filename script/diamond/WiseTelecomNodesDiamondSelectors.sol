@@ -18,8 +18,37 @@ import {QueueFulfillFacet} from "../../src/diamond/vault/facets/QueueFulfillFace
 import {QueueForecastFacet} from "../../src/diamond/vault/facets/QueueForecastFacet.sol";
 import {InterestAdminFacet} from "../../src/diamond/vault/facets/InterestAdminFacet.sol";
 import {RescueFacet} from "../../src/diamond/vault/facets/RescueFacet.sol";
+import {AutoCompoundFacet} from "../../src/diamond/vault/facets/AutoCompoundFacet.sol";
 import {WiseTelecomNodesQueueUIHelper} from "../../src/diamond/vault/helpers/WiseTelecomNodesQueueUIHelper.sol";
 import {WiseTelecomNodesQueueHelper} from "../../src/diamond/vault/helpers/WiseTelecomNodesQueueHelper.sol";
+
+/**
+ * @dev Getter mirror of the auto-compound tail shard: Solidity
+ * exposes no `.selector` for public state variables, so the routed
+ * getter selectors come from here. Signature parity is asserted by
+ * the facet tests and the live-fork getter reads.
+ */
+interface IAutoCompoundGetters {
+
+    function isAutoCompoundBot(
+        address _bot
+    )
+        external
+        view
+        returns (bool);
+
+    function autoCompoundAllowed(
+        address _user
+    )
+        external
+        view
+        returns (bool);
+
+    function autoCompoundFeeBps()
+        external
+        view
+        returns (uint256);
+}
 
 /**
  * @dev Single source of truth for WiseTelecomNodes facet selectors.
@@ -31,7 +60,8 @@ import {WiseTelecomNodesQueueHelper} from "../../src/diamond/vault/helpers/WiseT
  * queueAdmin=2, queueJoinLeave=5, queueFulfill=4, queueView=10 —
  * total 90. Post-launch additions (registered via the timelocked
  * selector proposals, not part of the genesis 90): queueForecast=1,
- * interestAdmin=1, rescue=1.
+ * interestAdmin=1, rescue=1, autoCompound=7 (4 functions + the 3
+ * shard getters, which the frozen live dispatchers cannot serve).
  */
 library WiseTelecomNodesDiamondSelectors {
 
@@ -141,6 +171,21 @@ library WiseTelecomNodesDiamondSelectors {
     {
         sels = new bytes4[](1);
         sels[0] = RescueFacet.rescueToken.selector;
+    }
+
+    function autoCompoundSelectors()
+        internal
+        pure
+        returns (bytes4[] memory sels)
+    {
+        sels = new bytes4[](7);
+        sels[0] = AutoCompoundFacet.compoundInterestOnBehalf.selector;
+        sels[1] = AutoCompoundFacet.setAutoCompoundAllowed.selector;
+        sels[2] = AutoCompoundFacet.setAutoCompoundBot.selector;
+        sels[3] = AutoCompoundFacet.setAutoCompoundFeeBps.selector;
+        sels[4] = IAutoCompoundGetters.isAutoCompoundBot.selector;
+        sels[5] = IAutoCompoundGetters.autoCompoundAllowed.selector;
+        sels[6] = IAutoCompoundGetters.autoCompoundFeeBps.selector;
     }
 
     function burnWiseSelectors()

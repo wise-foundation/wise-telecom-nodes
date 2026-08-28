@@ -149,4 +149,12 @@ abstract contract WiseTelecomNodesDiamondErrors {
     error SameIncentive();
 
     error ProtectedToken();
+
+    // ---- Auto-compound ----
+
+    error NotAutoCompoundBot();
+
+    error AutoCompoundNotAllowed();
+
+    error AutoCompoundFeeTooHigh();
 }
