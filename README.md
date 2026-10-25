@@ -1,5 +1,7 @@
 # Wise Telecom Nodes
 
+> **Superseded.** Development continues in [wise-telecom-nodes-v2](https://github.com/wise-foundation/wise-telecom-nodes-v2), which carries the same live vault diamonds together with the referral commission system (a referral registry per chain, the hub on Ethereum mainnet and the cohort facets on every vault) and the Sovren vault as a second vault system under the same referral umbrella. This repository stays as the record of the v3 launch and its first facet upgrades; the addresses below are still the live ones.
+
 Fixed-rate RWA yield vaults with an on-chain exit queue, the v3 of
 [ForwardVault](https://github.com/vonMangoldt/forward-vault). Deposits fund
 [World Mobile AirNode](https://docs.wise.one/world-mobile) infrastructure; depositors hold
